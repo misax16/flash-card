@@ -362,7 +362,7 @@
       <button class="btn btn-full" onclick="loadFromSheets()">🔄 Loading from Sheets</button>
     </div>
 
-    <div class="section-label">การแสดงผล</div>
+    <div class="section-label">表示設定</div>
     <div class="settings-group" style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:0 16px;">
       <div class="settings-row">
         <div>
@@ -376,7 +376,7 @@
       </div>
       <div class="settings-row">
         <div>
-          <label>覚えているカードを飛ばす</label>
+          <label>覚えたカードを飛ばす</label>
           <small>同じラウンドでは再表示しない</small>
         </div>
         <label class="toggle-wrap">
@@ -439,13 +439,13 @@ async function loadFromSheets() {
   const data = await apiFetch(null);
   hideLoading();
   if (!data) {
-    setSyncStatus('err', 'เชื่อมไม่ได้');
-    showToast('เชื่อมต่อ Sheets ไม่ได้ — ลองใหม่');
+    setSyncStatus('err', 'Disconnected');
+    showToast('Unable to connect to Sheets — Try again');
     return;
   }
   cards = data.map((c, i) => ({ id: i + 1, word: c.word || '', reading: c.reading || '', meaning: c.meaning || '', example: c.example || '' }));
   deck = [...cards]; known = new Set(); cur = 0;
-  setSyncStatus('ok', 'ซิงค์แล้ว');
+  setSyncStatus('ok', 'Connected');
   renderCard();
   if (document.querySelector('.tab-btn[data-tab="manage"]').classList.contains('active')) renderList();
   showToast('โหลด ' + cards.length + ' การ์ดแล้ว');
