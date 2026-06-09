@@ -341,18 +341,18 @@
       </div>
       <button class="btn btn-purple btn-full" onclick="addCard()" style="margin-top:8px">+ เพิ่มการ์ด</button>
     </div>
-    <div class="section-label">การ์ดทั้งหมด (<span id="cardCount">0</span>)</div>
+    <div class="section-label">All Cards (<span id="cardCount">0</span>)</div>
     <div id="cardList" class="card-list"></div>
   </div>
 
   <!-- Stats -->
   <div id="panel-stats" class="panel">
     <div class="stat-grid">
-      <div class="stat-card"><div class="stat-num" id="sTotal">0</div><div class="stat-lbl">การ์ดทั้งหมด</div></div>
-      <div class="stat-card"><div class="stat-num stat-green" id="sKnow">0</div><div class="stat-lbl">จำได้แล้ว</div></div>
-      <div class="stat-card"><div class="stat-num stat-purple" id="sPct">0%</div><div class="stat-lbl">ความแม่น</div></div>
+      <div class="stat-card"><div class="stat-num" id="sTotal">0</div><div class="stat-lbl">全カード</div></div>
+      <div class="stat-card"><div class="stat-num stat-green" id="sKnow">0</div><div class="stat-lbl">覚えたカード</div></div>
+      <div class="stat-card"><div class="stat-num stat-purple" id="sPct">0%</div><div class="stat-lbl">正確率</div></div>
     </div>
-    <button class="btn btn-full btn-purple" onclick="resetSession()">↺ เริ่มรอบใหม่</button>
+    <button class="btn btn-full btn-purple" onclick="resetSession()">↺ Reset</button>
   </div>
 
   <!-- Settings -->
@@ -366,8 +366,8 @@
     <div class="settings-group" style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:0 16px;">
       <div class="settings-row">
         <div>
-          <label>แสดงด้านไทยก่อน</label>
-          <small>เริ่มจากความหมายภาษาไทย</small>
+          <label>タイ語の面</label>
+          <small>タイ語からスタート</small>
         </div>
         <label class="toggle-wrap">
           <input type="checkbox" id="toggleReverse" onchange="saveSettings()">
@@ -376,8 +376,8 @@
       </div>
       <div class="settings-row">
         <div>
-          <label>ข้ามการ์ดที่จำได้แล้ว</label>
-          <small>ไม่แสดงซ้ำในรอบเดิม</small>
+          <label>覚えているカードを飛ばす</label>
+          <small>同じラウンドでは再表示しない</small>
         </div>
         <label class="toggle-wrap">
           <input type="checkbox" id="toggleSkipKnown" checked onchange="saveSettings()">
@@ -392,7 +392,7 @@
 <div class="loading-overlay" id="loadingOverlay">
   <div class="loading-box">
     <div class="spinner"></div>
-    <div id="loadingMsg">กำลังโหลด...</div>
+    <div id="loadingMsg">Loading...</div>
   </div>
 </div>
 
