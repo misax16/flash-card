@@ -306,10 +306,10 @@
 </header>
 
 <nav class="tabs">
-  <button class="tab-btn active" data-tab="study" onclick="setTab('study')">📚 เรียน</button>
-  <button class="tab-btn" data-tab="manage" onclick="setTab('manage')">✏️ การ์ด</button>
-  <button class="tab-btn" data-tab="stats" onclick="setTab('stats')">📊 สถิติ</button>
-  <button class="tab-btn" data-tab="settings" onclick="setTab('settings')">⚙️ ตั้งค่า</button>
+  <button class="tab-btn active" data-tab="study" onclick="setTab('study')">📚 覚える</button>
+  <button class="tab-btn" data-tab="manage" onclick="setTab('manage')">✏️ Flash cards</button>
+  <button class="tab-btn" data-tab="stats" onclick="setTab('stats')">📊 成績</button>
+  <button class="tab-btn" data-tab="settings" onclick="setTab('settings')">⚙️ 設定</button>
 </nav>
 
 <main>
@@ -329,7 +329,7 @@
 
   <!-- Manage -->
   <div id="panel-manage" class="panel">
-    <div class="section-label">เพิ่มการ์ดใหม่</div>
+    <div class="section-label">新規カード追加</div>
     <div class="add-form">
       <div class="field-grid three">
         <input class="field" id="fWord" placeholder="คำ (日本語)" />
@@ -359,7 +359,7 @@
   <div id="panel-settings" class="panel">
     <div class="section-label">Google Sheets</div>
     <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:24px;">
-      <button class="btn btn-full" onclick="loadFromSheets()">🔄 โหลดการ์ดจาก Sheets</button>
+      <button class="btn btn-full" onclick="loadFromSheets()">🔄 Loading from Sheets</button>
     </div>
 
     <div class="section-label">การแสดงผล</div>
