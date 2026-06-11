@@ -179,27 +179,27 @@ main { max-width: 560px; margin: 0 auto; padding: 20px 14px 80px; }
 <div id="authWrap" class="auth-wrap">
   <div class="auth-box">
     <div class="auth-title">Flash Card <span>JP</span>–TH</div>
-    <div class="auth-sub">เข้าสู่ระบบเพื่อบันทึกความคืบหน้าของคุณ</div>
+    <div class="auth-sub">log in to learn & play </div>
     <div class="auth-tabs">
-      <button class="auth-tab active" onclick="setAuthTab('login')">เข้าสู่ระบบ</button>
-      <button class="auth-tab" onclick="setAuthTab('register')">สมัครสมาชิก</button>
+      <button class="auth-tab active" onclick="setAuthTab('login')">Log in</button>
+      <button class="auth-tab" onclick="setAuthTab('register')">Register</button>
     </div>
     <div class="field-wrap">
-      <div class="field-label">อีเมล</div>
+      <div class="field-label">E-mail</div>
       <input class="field" id="authEmail" type="email" placeholder="email@example.com" />
     </div>
     <div class="field-wrap">
-      <div class="field-label">รหัสผ่าน</div>
+      <div class="field-label">Pass word</div>
       <input class="field" id="authPassword" type="password" placeholder="••••••••" />
     </div>
     <div id="authNameWrap" class="field-wrap" style="display:none">
-      <div class="field-label">ชื่อที่แสดง</div>
+      <div class="field-label">Display name</div>
       <input class="field" id="authName" type="text" placeholder="ชื่อของคุณ" />
     </div>
-    <button class="auth-btn" id="authSubmitBtn" onclick="handleAuth()">เข้าสู่ระบบ</button>
+    <button class="auth-btn" id="authSubmitBtn" onclick="handleAuth()">Log in</button>
     <div class="auth-err" id="authErr"></div>
-    <div class="divider">— หรือ —</div>
-    <button class="guest-btn" onclick="handleGuest()">👤 เข้าแบบ Guest (ไม่บันทึกข้อมูล)</button>
+    <div class="divider">— Or —</div>
+    <button class="guest-btn" onclick="handleGuest()">👤 Log in as Guest (not be recorded)</button>
   </div>
 </div>
 
@@ -211,14 +211,14 @@ main { max-width: 560px; margin: 0 auto; padding: 20px 14px 80px; }
       <span class="sync-dot" id="syncDot"></span>
       <span class="user-badge" id="userBadge">—</span>
       <button class="btn" onclick="shuffleDeck()">🔀</button>
-      <button class="btn" onclick="handleLogout()">ออก</button>
+      <button class="btn" onclick="handleLogout()">Log out</button>
     </div>
   </header>
   <nav class="tabs">
-    <button class="tab-btn active" data-tab="study" onclick="setTab('study')">📚 เรียน</button>
-    <button class="tab-btn admin-only" data-tab="manage" onclick="setTab('manage')" style="display:none">✏️ การ์ด</button>
-    <button class="tab-btn" data-tab="stats" onclick="setTab('stats')">📊 สถิติ</button>
-    <button class="tab-btn" data-tab="settings" onclick="setTab('settings')">⚙️ ตั้งค่า</button>
+    <button class="tab-btn active" data-tab="study" onclick="setTab('study')">📚 覚える</button>
+    <button class="tab-btn admin-only" data-tab="manage" onclick="setTab('manage')" style="display:none">✏️ カード</button>
+    <button class="tab-btn" data-tab="stats" onclick="setTab('stats')">📊 成績</button>
+    <button class="tab-btn" data-tab="settings" onclick="setTab('settings')">⚙️ 設定</button>
   </nav>
   <main>
     <!-- Study -->
