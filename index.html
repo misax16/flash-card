@@ -224,8 +224,8 @@ main { max-width: 560px; margin: 0 auto; padding: 20px 14px 80px; }
     <div id="panel-manage" class="panel">
       <div class="section-label">นำเข้าจาก Google Sheets</div>
       <div class="add-form" style="margin-bottom:20px">
-        <div style="font-size:12px;color:var(--text2);margin-bottom:8px">วาง Apps Script URL ของ Sheets แล้วกด Import — การ์ดที่ซ้ำกันจะถูกข้ามอัตโนมัติ</div>
-        <input class="field" id="importUrl" placeholder="https://script.google.com/macros/s/..." style="margin-bottom:8px" />
+        <div style="font-size:12px;color:var(--text2);margin-bottom:8px">วาง URL ของ Google Sheets แล้วกด Import — การ์ดที่ซ้ำกันจะถูกข้ามอัตโนมัติ</div>
+        <input class="field" id="importUrl" placeholder="https://docs.google.com/spreadsheets/d/..." style="margin-bottom:8px" />
         <button class="btn btn-purple btn-full" onclick="importFromSheets()">📥 Import จาก Sheets</button>
         <div id="importStatus" style="font-size:12px;color:var(--text2);margin-top:8px;text-align:center"></div>
       </div>
@@ -491,26 +491,44 @@ window.markSkip = (e) => { if(e)e.stopPropagation(); go(1,e); };
 // ── IMPORT FROM SHEETS ──
 window.importFromSheets = async () => {
   if (!isAdmin()) { showToast('เฉพาะ Admin เท่านั้น'); return; }
-  const url = document.getElementById('importUrl').value.trim();
-  if (!url) { showToast('กรุณาใส่ URL ก่อน'); return; }
+  const raw = document.getElementById('importUrl').value.trim();
+  if (!raw) { showToast('กรุณาใส่ URL ก่อน'); return; }
   const statusEl = document.getElementById('importStatus');
+
+  // Extract spreadsheet ID and convert to CSV export URL
+  const match = raw.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
+  if (!match) { statusEl.textContent = '❌ URL ไม่ถูกต้อง — ใส่ Google Sheets URL'; return; }
+  const sheetId = match[1];
+  const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=0`;
+
   statusEl.textContent = 'กำลังดึงข้อมูลจาก Sheets...';
   setSyncStatus('loading');
   try {
-    const res = await fetch(url, { redirect: 'follow' });
-    const data = await res.json();
-    if (!Array.isArray(data)) throw new Error('ข้อมูลไม่ถูกต้อง');
-    // get existing words to skip duplicates
+    const res = await fetch(csvUrl);
+    if (!res.ok) throw new Error('โหลดไม่ได้ — ตรวจสอบว่า Sheet เป็น Public');
+    const text = await res.text();
+    const rows = text.trim().split('
+').map(r => r.split(',').map(c => c.replace(/^"|"$/g,'').trim()));
+    // first row = headers: word, reading, meaning, example
+    const headers = rows[0].map(h => h.toLowerCase());
+    const iWord = headers.indexOf('word');
+    const iRead = headers.indexOf('reading');
+    const iMean = headers.indexOf('meaning');
+    const iEx = headers.indexOf('example');
+    if (iWord === -1 || iMean === -1) { statusEl.textContent = '❌ ไม่พบคอลัมน์ word / meaning'; return; }
+
     const existingWords = new Set(cards.map(c => c.word));
     let added = 0, skipped = 0;
-    statusEl.textContent = `พบ ${data.length} รายการ กำลัง import...`;
-    for (const c of data) {
-      const word = (c.word || '').trim();
-      const meaning = (c.meaning || '').trim();
+    const dataRows = rows.slice(1).filter(r => r.length > 1);
+    statusEl.textContent = `พบ ${dataRows.length} รายการ กำลัง import...`;
+    for (const r of dataRows) {
+      const word = (r[iWord] || '').trim();
+      const meaning = (r[iMean] || '').trim();
       if (!word || !meaning) { skipped++; continue; }
       if (existingWords.has(word)) { skipped++; continue; }
       await addDoc(collection(db, CARDS_COLLECTION), {
-        word, reading: (c.reading || '').trim(), meaning, example: (c.example || '').trim(),
+        word, reading: iRead !== -1 ? (r[iRead]||'').trim() : '',
+        meaning, example: iEx !== -1 ? (r[iEx]||'').trim() : '',
         createdAt: serverTimestamp()
       });
       existingWords.add(word);
@@ -524,7 +542,7 @@ window.importFromSheets = async () => {
     showToast(`Import เสร็จ! เพิ่ม ${added} การ์ด`);
   } catch(e) {
     setSyncStatus('err');
-    statusEl.textContent = '❌ Import ไม่สำเร็จ — เช็ค URL แล้วลองใหม่';
+    statusEl.textContent = '❌ ' + e.message;
     console.error(e);
   }
 };
