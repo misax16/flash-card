@@ -279,6 +279,11 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously, signOut, onAuthStateChanged, updateProfile } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, collection, getDocs, addDoc, deleteDoc, query, orderBy, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
+// ── EARLY HELPERS ──
+window.showLoading=function(msg){document.getElementById('loadingMsg').textContent=msg||'กำลังโหลด...';document.getElementById('loadingOverlay').classList.add('show');};
+window.hideLoading=function(){document.getElementById('loadingOverlay').classList.remove('show');};
+window.showToast=function(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);};
+
 const firebaseConfig = {
   apiKey: "AIzaSyCZWFJiZvOXx_QFTJzgOIZhGTrlao9TpsY",
   authDomain: "flashcard-jp.firebaseapp.com",
@@ -293,6 +298,9 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const ADMIN_EMAIL = 'nininyanko4@gmail.com';
+
+// Hide loading immediately — show auth screen first
+hideLoading();
 const CARDS_COLLECTION = 'cards';
 
 // ── STATE ──
@@ -611,8 +619,7 @@ window.speak = (e,text,lang) => {
 function setSyncStatus(s) { document.getElementById('syncDot').className='sync-dot '+(s==='ok'?'ok':s==='err'?'err':'loading'); }
 function showLoading(msg){document.getElementById('loadingMsg').textContent=msg||'กำลังโหลด...';document.getElementById('loadingOverlay').classList.add('show');}
 function hideLoading(){document.getElementById('loadingOverlay').classList.remove('show');}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
-window.showToast=showToast;
+
 
 document.addEventListener('keydown', e => {
   if (['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) return;
